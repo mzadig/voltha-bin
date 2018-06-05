@@ -1,0 +1,160 @@
+#!/bin/bash
+# this will reset everything!
+
+
+echo "============== Removing Persisted data for the cluster ============================"
+#Flush stored data
+sudo ls -la /var/lib/voltha-runtime
+sudo rm -r /var/lib/voltha-runtime/consul/data/*
+sudo rm -r /var/lib/voltha-runtime/fluentd/*
+sudo rm -r /var/lib/voltha-runtime/kafka/*
+sudo rm -r /var/lib/voltha-runtime/zookeeper/data/*
+sudo rm -r /var/lib/voltha-runtime/zookeeper/datalog/*
+sudo rm -r /var/lib/voltha-runtime/grafana/data/*
+
+#remove the directories
+
+sudo mkdir -p /var/lib/voltha-runtime/etcd
+sudo mkdir -p /var/lib/voltha-runtime/consul/data
+sudo mkdir -p /var/lib/voltha-runtime/consul/config
+sudo mkdir -p /var/lib/voltha-runtime/fluentd
+sudo mkdir -p /var/lib/voltha-runtime/kafka
+sudo mkdir -p /var/lib/voltha-runtime/zookeeper/data
+sudo mkdir -p /var/lib/voltha-runtime/zookeeper/datalog
+sudo mkdir -p /var/lib/voltha-runtime/grafana/data
+sudo mkdir -p /var/lib/voltha-runtime/onos/config
+sudo chown -R $(id -u):$(id -g) /var/lib/voltha-runtime
+
+
+
+
+
+echo "  Deletion is done ....."
+sudo ls -la /var/lib/voltha-runtime
+
+
+echo "============== Removed Persisted data for the cluster ============================"
+
+cd ~/source/voltha/k8s
+
+# remove all running voltha services
+kubectl delete -f foundry-node/
+cd $HOME
+sudo kubeadm reset
+
+echo "============== Removing $HOME/.kube====================================================="
+
+rm -rf .kube
+echo "============== Init kubeadm ====================================================="
+sudo kubeadm init
+echo "============== Init kubeadm ========================= DONE ============================"
+# make non-root user able to use kubectl
+
+echo "============== make non-root user able to use kubectl"
+mkdir -p .kube
+sudo cp -i /etc/kubernetes/admin.conf  .kube/config
+sudo chown $(id -u):$(id -g) .kube/config
+
+
+echo "Collect the name spaces ====================================================="
+kubectl get all --all-namespaces
+
+# allow master node to run deployments
+
+echo "============== Taint the nodes  ====================================================="
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+
+cd ~/source/voltha/k8s/
+
+
+# setup container networking.
+
+echo "============== Setting up Calico  ====================================================="
+kubectl apply -f calico-1.6.yml 
+echo "============== Setting up Calico  ========================  DONE  ============================="
+echo ""
+echo "============== Allow for settling sleep 50 seconds  ============================="
+
+sleep 50
+
+
+kubectl get pods --all-namespaces
+kubectl get all --all-namespaces
+
+# verify calico networking a dns
+echo "============== Calico   DIG IPS   etcd  calico-etcd  ====================================================="
+dig +short @10.96.0.10 calico-etcd.kube-system.svc.cluster.local
+
+echo "============== Calico   DIG IPS   kubernetes ====================================================="
+dig +short @10.96.0.10 kubernetes.default.svc.cluster.local
+
+echo "============== Calico   DIG IPS   SRV _https._tcp.kubernetes ====================================================="
+dig +short @10.96.0.10 SRV _https._tcp.kubernetes.default.svc.cluster.local
+
+
+### VOLTHA BEGINS ###
+
+read -r -p "Are you sure? [y/N] " response
+
+
+echo "============== Applying namespace..  ====================================================="
+
+kubectl apply -f namespace.yml
+echo "============== Applying namespace.  =========================== DONE =========================="
+
+kubectl apply -f ingress/
+
+
+# BASE COMPONENTS
+
+## these files have been edited to reflect persistent environment
+
+kubectl apply -f foundry-node/zookeeper_persist.yml
+#kubectl apply -f foundry-node/kafka_persist_v2.yml
+kubectl apply -f foundry-node/kafka_persist.yml
+kubectl apply -f foundry-node/etcd_persist.yml
+SLEEP_TIME=10
+echo ""
+echo "============== Allow for foundry-node/etcd_persist.yml settling sleep $SLEEP_TIME seconds  ============================="
+sleep $SLEEP_TIME
+kubectl apply -f foundry-node/fluentd.yml
+
+## verify mount binds are writing data
+
+ls -atlrR /var/lib/voltha-runtime/
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+
+kubectl apply -f foundry-node/vcore_for_etcd_repo.yml
+kubectl apply -f foundry-node/ofagent_repo.yml 
+kubectl apply -f foundry-node/envoy_for_etcd_repo.yml 
+kubectl apply -f foundry-node/vcli_repo.yml 
+kubectl apply -f foundry-node/netconf_repo.yml 
+kubectl apply -f foundry-node/grafana_persist.yml 
+kubectl apply -f foundry-node/stats_repo.yml 
+
+## edit onos network config to reflect your OLT hardware.  Otherwise copy as-is
+cp ~/source/voltha/onos-config/network-cfg.json /var/lib/voltha-runtime/onos/config/
+
+SLEEP_TIME=30
+echo ""
+echo "============== Allow for pre_ONOS settling sleep $SLEEP_TIME seconds  ============================="
+sleep $SLEEP_TIME
+
+#kubectl apply -f foundry-node/envoy_for_etcd_repo.yml 
+kubectl apply -f foundry-node/onos_repo.yml 
+
+kubectl -n voltha get pods
+echo ""
+SLEEP_TIME=30
+echo "============== Allow for post_ONOS settling sleep $SLEEP_TIME seconds  ============================="
+sleep $SLEEP_TIME
+ 
+
+
+kubectl -n voltha get pods
+
+
+

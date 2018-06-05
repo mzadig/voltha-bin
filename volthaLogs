@@ -1,0 +1,4 @@
+#!/bin/bash
+echo 'Watch the voltha container logs.................'
+docker logs -f compose_voltha_1 | more
+

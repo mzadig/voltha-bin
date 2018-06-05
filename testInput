@@ -1,0 +1,15 @@
+#!/bin/bash
+# this will reardown everything and reboot 
+
+
+echo "============== Testing Input  ============================"
+
+
+read -r -p "Are you sure you want to reboot? [y/N] " response
+
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+then
+    echo "Got a yes"
+else
+    echo "Got a NO"
+fi

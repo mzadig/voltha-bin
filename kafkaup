@@ -1,0 +1,15 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+cd ~/source/voltha/k8s
+
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo 'foundry-node/kafka_persist_v2.yml'
+kubectl apply -f foundry-node/kafka_persist_v2.yml
+
+# verify all the pods are running
+
+kubectl get pods -n voltha

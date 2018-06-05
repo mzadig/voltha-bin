@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "Get the voltha services:"
+kubectl -n voltha get svc
+
+echo "Get the voltha pods ----------------------:"
+kubectl get pods -n voltha
+
+echo "Get All voltha ----------------------:"
+kubectl get all -n voltha
+
+echo "kubectl get pod -n voltha nginx-ingress-controller-5fd7b65955-f6wgb -o yaml ----------------------------"
+ kubectl get pod -n voltha nginx-ingress-controller-5fd7b65955-f6wgb -o yaml
+
+echo "kubectl get all --all-namespaces ---------------------------------------------"
+kubectl get all --all-namespaces
+
+echo "kubectl get svc ingress-nginx -o yaml -n voltha -------------------------------"
+kubectl get svc ingress-nginx -o yaml -n voltha
+
+

@@ -1,0 +1,13 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+cd /home/mzadig/source/voltha/k8s
+
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo 'foundry-node/envoy_for_consul_repo.yml'
+kubectl apply -f foundry-node/consul_persist.yml
+
+# verify all the pods are running
+
+kubectl get pods -n voltha

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo "This will collect the pod name in the voltha cluser based on the  key word"
+
+KEY=$1
+
+echo "Searching for $KEY in list of pods in the voltha namespace"
+
+
+echo "Looking for $KEY"
+
+POD_NAME="notfound"
+kubectl -n voltha get pods | while read LINE
+	do
+		VAL=$LINE
+		VAL=`awk '{print $1}' <<< $LINE`
+		
+		case $VAL in 
+			$KEY*)  kubectl logs $VAL -n voltha
+				break;;
+			*) FOO="foo";;
+		esac
+	done 
+
+
+
+

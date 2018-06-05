@@ -1,0 +1,12 @@
+#!/bin/bash
+# This script will reboot the destination olt
+
+
+VOLTHA_CMDR='10.64.1.115:5000'
+OLT_TAG=$1
+
+echo $OLT_TAG
+echo $VOLTHA_CMDR
+echo "http://$VOLTHA_CMDR/api/olt/ping/$OLT_TAG"
+
+curl -X GET "http://$VOLTHA_CMDR/api/olt/ping/$OLT_TAG"

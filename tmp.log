@@ -1,0 +1,18 @@
+Starting k8show ....
+NAME                                        READY     STATUS    RESTARTS   AGE
+consul-0                                    1/1       Running   0          1m
+dashd-6bd96556c5-dnkvx                      1/1       Running   0          1m
+default-http-backend-66857cfb48-qj7kn       1/1       Running   0          1d
+fluentd-6d54bf4d86-zht4t                    1/1       Running   0          1m
+grafana-7c96cc4b5-zbxtg                     1/1       Running   0          1m
+kafka-0                                     1/1       Running   0          1m
+netconf-58f49cc65d-9ql9d                    1/1       Running   0          1m
+nginx-ingress-controller-5fd7b65955-gqwg4   1/1       Running   0          1d
+ofagent-6c4b954c75-qqqtz                    1/1       Running   0          1m
+onos-6cd6cc4f7-s47b2                        1/1       Running   0          1m
+shovel-87d64d4c-lkm2m                       1/1       Running   2          1m
+vcli-5764f5dc7f-b8vsp                       1/1       Running   0          1m
+vcore-64d49bbcd7-wn6zn                      1/1       Running   0          1m
+voltha-68fb46d577-z66b2                     1/1       Running   0          1m
+zookeeper-0                                 1/1       Running   0          1m
+Action DONE....

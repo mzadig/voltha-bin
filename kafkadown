@@ -1,0 +1,18 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+ROOT=/home/foundry/source/voltha/k8s
+cd /home/foundry/source/voltha/k8s
+
+echo $ROOT
+
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo "kubectl delete -f $ROOT/foundry-node/kafka_persist.yml"
+kubectl delete -f $ROOT/foundry-node/kafka_persist.yml 
+
+# check the pods to be sure they are down
+
+kubectl get pods -n voltha

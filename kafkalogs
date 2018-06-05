@@ -1,0 +1,8 @@
+#!/bin/bash
+
+POD_NAME=kafka-0
+
+
+kubectl logs $POD_NAME -n voltha 
+
+

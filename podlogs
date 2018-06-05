@@ -1,0 +1,7 @@
+#!/bin/bash
+
+POD_NAME=$1
+echo "POD_NAME = $POD_NAME"
+echo "================  Running kubectl logs $POD_NAME -n voltha  ================ "
+kubectl logs $POD_NAME -n voltha
+

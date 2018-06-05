@@ -1,0 +1,17 @@
+NAME                                        READY     STATUS    RESTARTS   AGE
+dashd-6bd96556c5-hjnsq                      1/1       Running   1          1d
+default-http-backend-66857cfb48-wk4p8       1/1       Running   0          1d
+etcd-0                                      1/1       Running   0          1d
+fluentd-6d54bf4d86-tjwb8                    1/1       Running   0          1d
+grafana-7c96cc4b5-5khc7                     1/1       Running   0          1d
+kafka-0                                     1/1       Running   1          1d
+netconf-58f49cc65d-4wxk8                    1/1       Running   0          1d
+nginx-ingress-controller-5fd7b65955-mxpxs   1/1       Running   0          1d
+ofagent-6c4b954c75-7sc82                    1/1       Running   18         1d
+onos-6cd6cc4f7-gx999                        1/1       Running   0          1d
+sentinnel                                   1/1       Running   0          23h
+shovel-87d64d4c-94wkc                       1/1       Running   2          1d
+vcli-5764f5dc7f-dc7bx                       1/1       Running   0          1d
+vcore-5db796457-9lcjg                       1/1       Running   0          12m
+voltha-5f696fd6c5-x6g2x                     1/1       Running   0          1d
+zookeeper-0                                 1/1       Running   0          1d

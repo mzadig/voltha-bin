@@ -1,0 +1,17 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+cd /home/foundry/source/voltha/k8s
+
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo 'foundry-node/vcore_for_etcd_repo_msz.yml'
+#echo 'foundry-node/vcore_for_etcd_repo.yml'
+#kubectl apply -f foundry-node/vcore_for_etcd_repo.yml
+kubectl apply -f foundry-node/vcore_for_etcd_repo_msz.yml
+
+# verify all the pods are running
+
+kubectl get pods -n voltha

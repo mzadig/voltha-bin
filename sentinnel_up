@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+kubectl -n voltha run sentinnel  --image=mzadig/sentinnel:latest --restart=Never -i -t
+
+

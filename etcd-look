@@ -1,0 +1,8 @@
+#!/bin/bash
+export ETCDCTL_API=3
+
+etcdctl --endpoints=http://etcd.voltha.svc.cluster.local:2379 get service --prefix -w fields
+#etcdctl --endpoints=http://192.168.2.174:2379 get service --prefix -w fields
+
+sleep 2
+

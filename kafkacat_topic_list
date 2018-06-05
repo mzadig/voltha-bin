@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script will collect the list of topics mapped by the 
+# pods using kafka. It should be followed by the listing of
+# the specific topic of interest to be certain that the
+# logging is happening
+#
+# this will default to consumer mode.
+#
+# to get kafkacat:   #apt install kafkacat
+#
+#
+
+KAFKA_PORT=9092
+
+kafkacat -L -b kafka.voltha.svc.cluster.local:$KAFKA_PORT

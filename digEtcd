@@ -1,0 +1,2 @@
+echo "===========================  digging etcd.voltha.svc.cluster.local ======================="
+dig +short @10.96.0.10 etcd.voltha.svc.cluster.local

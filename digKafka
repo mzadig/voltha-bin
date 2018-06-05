@@ -1,0 +1,2 @@
+echo "Digging kafka.voltha.svc.cluster.local"
+dig +short @10.96.0.10 kafka.voltha.svc.cluster.local

@@ -1,0 +1,18 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+ROOT=/home/mzadig/source/voltha/k8s
+cd /home/mzadig/source/voltha/k8s
+
+echo $ROOT
+
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo "kubectl delete -f $ROOT/vcore_for_etcd_repo.yml"
+kubectl delete -f $ROOT/foundry-node/vcore_for_etcd_repo.yml 
+
+# check the pods to be sure they are down
+
+kubectl get pods -n voltha

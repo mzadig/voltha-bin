@@ -1,0 +1,51 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+# MODIFIED 5/18/2018 to reflect Matts changes
+
+echo " =====  Taking down the k8 voltha namiespace Cluster.... ================"
+
+#ROOT=/home/foundry/source/voltha/k8s
+
+ROOT=/home/foundry/source/voltha_msz_20180605/k8s
+cd $ROOT
+
+echo " Current target directory = $ROOT"
+
+#kubectl delete -f $ROOT/calico-1.6.yml
+
+kubectl delete -f $ROOT/foundry-node/zookeeper_persist.yml
+kubectl delete -f $ROOT/foundry-node/kafka_persist.yml
+kubectl delete -f $ROOT/foundry-node/etcd_persist.yml
+kubectl delete -f $ROOT/foundry-node/fluentd.yml
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+#echo "delete namespace.yml"
+#kubectl delete -f $ROOT/namespace.yml
+#echo "delete ingress"
+#kubectl delete -f $ROOT/ingress/
+
+
+kubectl delete -f $ROOT/foundry-node/vcore_for_etcd_repo.yml
+kubectl delete -f $ROOT/foundry-node/ofagent_repo.yml 
+kubectl delete -f $ROOT/foundry-node/envoy_for_etcd_repo.yml 
+kubectl delete -f $ROOT/foundry-node/vcli_repo.yml 
+kubectl delete -f $ROOT/foundry-node/netconf_repo.yml 
+kubectl delete -f $ROOT/foundry-node/grafana_persist.yml 
+kubectl delete -f $ROOT/foundry-node/stats_repo.yml 
+
+kubectl delete -f $ROOT/foundry-node/onos_repo.yml 
+
+echo "===============================  delete namespace.yml"
+kubectl delete -f $ROOT/namespace.yml
+echo "==============================  delete ingress"
+kubectl delete -f $ROOT/ingress/
+
+
+#Akubectl delete -f $ROOT/calico-1.6.yml
+
+
+# check the pods to be sure they are down
+
+kubectl get pods -n voltha

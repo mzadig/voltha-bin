@@ -1,0 +1,60 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+echo " ====================== Restarting the voltha cluster using the default yaml files for startup ================="
+ROOT=/home/foundry/source/voltha/k8s
+echo "==============  Operatiing on $ROOT ==========================="
+cd $ROOT
+
+
+#kubectl apply -f calico-1.6.yml
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+echo 'starting namespace'
+kubectl apply -f namespace.yml
+
+echo 'Starting ingress'
+kubectl apply -f ingress/
+
+kubectl apply -f foundry-node/etcd_persist.yml
+
+
+SLEEP_TIME=20
+
+echo "=======================   Sleeping  $SLEEP_TIME  to allow etcd settling ====================="
+sleep $SLEEP_TIME
+echo "==================================   digging ETCD ======================"
+digEtcd
+
+
+kubectl apply -f foundry-node/zookeeper_persist.yml
+kubectl apply -f foundry-node/kafka_persist.yml
+kubectl apply -f foundry-node/etcd_persist.yml
+
+kubectl apply -f foundry-node/fluentd.yml
+
+# Reflects Matt's latest changees as of 5/16/2018
+
+echo "Firing ----------------------------  kubectl apply -f foundry-node/vcore_for_etcd_repo.yml"
+kubectl apply -f foundry-node/vcore_for_etcd_repo.yml
+echo "Firing ---------------------------- foundry-node/ofagent_repo.yml "
+kubectl apply -f foundry-node/ofagent_repo.yml 
+echo 'Firing ----------------------------foundry-node/envoy_for_etcd_repo.yml'
+kubectl apply -f foundry-node/envoy_for_etcd_repo.yml 
+echo 'Firing ----------------------------foundry-node/vcli_repo.yml '
+kubectl apply -f foundry-node/vcli_repo.yml 
+echo 'Firing ---------------------------- foundry-node/netconf_repo.ym '
+kubectl apply -f foundry-node/netconf_repo.yml 
+echo 'Firing ---------------------------- foundry-node/grafana_persist.yml  '
+kubectl apply -f foundry-node/grafana_persist.yml 
+echo 'Firing ---------------------------- foundry-node/stats_repo.yml '
+kubectl apply -f foundry-node/stats_repo.yml 
+echo 'Firing ---------------------------- foundry-node/onos_repo.yml  '
+
+cp ~/source/voltha/onos-config/network-cfg.json /var/lib/voltha-runtime/onos/config/
+kubectl apply -f foundry-node/onos_repo.yml 
+
+# verify all the pods are running
+
+kubectl get pods -n voltha

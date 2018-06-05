@@ -1,0 +1,59 @@
+#!/bin/bash
+# this will reardown everything and reboot 
+
+
+echo "============== Beginning Post teardown ============================"
+
+echo "allow insecure docker repos"
+sudo cat <<EOF > /etc/docker/daemon.json
+{
+  "insecure-registries":[ "docker-repo.dev.atl.foundry.att.com:5000" ]
+}
+EOF
+
+echo "============== Restarting docker ============================"
+sudo systemctl restart docker
+sudo usermod -aG docker  mzadig
+
+
+echo "============== Not REBOOTING ============================"
+
+
+echo "stage local persistent directories"
+
+sudo mkdir -p /var/lib/voltha-runtime/etcd
+sudo mkdir -p /var/lib/voltha-runtime/consul/data
+sudo mkdir -p /var/lib/voltha-runtime/consul/config
+sudo mkdir -p /var/lib/voltha-runtime/fluentd
+sudo mkdir -p /var/lib/voltha-runtime/kafka
+sudo mkdir -p /var/lib/voltha-runtime/zookeeper/data
+sudo mkdir -p /var/lib/voltha-runtime/zookeeper/datalog
+sudo mkdir -p /var/lib/voltha-runtime/grafana/data
+sudo mkdir -p /var/lib/voltha-runtime/onos/config
+sudo chown -R $(id -u):$(id -g) /var/lib/voltha-runtime
+
+echo "============== kubeadm init ============================"
+
+sudo kubeadm init
+### COPY RESULTS into ~/kubeadm-setup.txt
+
+# make non-root user able to use kubectl
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+# allow master node to run deployments
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+
+
+echo " Run the k8reset..........................   "
+
+
+
+
+
+
+

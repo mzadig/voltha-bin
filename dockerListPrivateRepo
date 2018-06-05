@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl docker-repo.dev.atl.foundry.att.com:5000/v2/voltha-voltha/tags/list | grep kafka

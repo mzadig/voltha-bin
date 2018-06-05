@@ -1,0 +1,775 @@
+Name:           dashd-6bd96556c5-qb5vq
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:34 -0400
+Labels:         app=dashd
+                pod-template-hash=2685211271
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.168
+Controlled By:  ReplicaSet/dashd-6bd96556c5
+Containers:
+  dashd:
+    Container ID:  docker://73faa4db932d0bd503c8088516e1d752595e1b48645959745e440e41d42b391d
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-dashd:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-dashd@sha256:37673bf88d48bef0e8bbeada45070458e9a47e81c152e915934f2fb4e2624639
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      /dashd/dashd/main.py
+      --kafka=kafka.$(NAMESPACE).svc.cluster.local
+      --consul=consul:8500
+      --grafana_url=http://admin:admin@grafana.$(NAMESPACE).svc.cluster.local:80/api
+      --topic=voltha.kpis
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:38 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           default-http-backend-66857cfb48-62nn7
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:06:32 -0400
+Labels:         app=default-http-backend
+                pod-template-hash=2241379604
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.173
+Controlled By:  ReplicaSet/default-http-backend-66857cfb48
+Containers:
+  default-http-backend:
+    Container ID:   docker://2d75456a939c8ad9b49f5af15a664529b154c4f5fd992a8a1ad09d7bb628068f
+    Image:          gcr.io/google_containers/defaultbackend:1.4
+    Image ID:       docker-pullable://gcr.io/google_containers/defaultbackend@sha256:865b0c35e6da393b8e80b7e3799f777572399a4cff047eb02a81fa6e7a48ed4b
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:06:42 -0400
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     10m
+      memory:  20Mi
+    Requests:
+      cpu:        10m
+      memory:     20Mi
+    Liveness:     http-get http://:8080/healthz delay=30s timeout=5s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       Guaranteed
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           etcd-0
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:07:00 -0400
+Labels:         app=etcd
+                controller-revision-hash=etcd-77df5bdd48
+                statefulset.kubernetes.io/pod-name=etcd-0
+Annotations:    <none>
+Status:         Running
+IP:             192.168.2.176
+Controlled By:  StatefulSet/etcd
+Containers:
+  etcd:
+    Container ID:  docker://06791dcbe5fd67be147f87142f38d829d537ebc20778d6b9f27aa804af93ac6c
+    Image:         quay.io/coreos/etcd:v3.2.13
+    Image ID:      docker-pullable://quay.io/coreos/etcd@sha256:e372648462335719b21c5410d5a064a470953a73d59b587611a75f6dfe0d6fba
+    Ports:         2379/TCP, 2380/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Command:
+      /bin/sh
+      -ecx
+      
+exec etcd --name ${HOSTNAME} \
+  --listen-peer-urls http://0.0.0.0:2380 \
+  --listen-client-urls http://0.0.0.0:2379 \
+  --advertise-client-urls http://etcd.voltha.svc.cluster.local:2379 \
+  --data-dir /var/lib/etcd \
+  --initial-advertise-peer-urls http://${HOSTNAME}:2380 \
+  --initial-cluster-token etcd-cluster-1 \
+  --initial-cluster ${HOSTNAME}=http://${HOSTNAME}:2380 \
+  --initial-cluster-state new \
+  --debug
+
+    State:          Running
+      Started:      Mon, 14 May 2018 16:07:06 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/lib/etcd from etcd-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  etcd-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/etcd
+    HostPathType:  Directory
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           fluentd-6d54bf4d86-wrzr2
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:07:03 -0400
+Labels:         app=fluentd
+                pod-template-hash=2810690842
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.163
+Controlled By:  ReplicaSet/fluentd-6d54bf4d86
+Containers:
+  fluentd:
+    Container ID:   docker://7906da1e520964101d516c8de18e7842e1d75a8687f123c629a113af4df7be8f
+    Image:          fluent/fluentd:v0.12.42
+    Image ID:       docker-pullable://fluent/fluentd@sha256:98c4ae3e6270897d7211b3ef4e18b9c8666d7493a2aebd2427ce18593047c97a
+    Port:           24224/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:07:05 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /fluentd/log from fluentd-log (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  fluentd-log:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/fluentd
+    HostPathType:  Directory
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           grafana-7c96cc4b5-6knm6
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:31 -0400
+Labels:         app=grafana
+                pod-template-hash=375277061
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.184
+Controlled By:  ReplicaSet/grafana-7c96cc4b5
+Containers:
+  grafana:
+    Container ID:   docker://66222ee8d1b0d13ed7397615e95970a64aa5f7bc35e8f4fdb4e5f633780df462
+    Image:          kamon/grafana_graphite:3.0
+    Image ID:       docker-pullable://kamon/grafana_graphite@sha256:8b75a8bd5f3215248f6d6e84ddacb84c3e343f1d2cc2dcd0b820f9b12cb6a44f
+    Ports:          80/TCP, 2003/TCP, 2004/TCP, 8126/TCP, 8125/TCP
+    Host Ports:     0/TCP, 0/TCP, 0/TCP, 0/TCP, 0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:33 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      GR_SERVER_ROOT_URL:  http://localhost:80/grafana/
+    Mounts:
+      /opt/grafana/data from grafana-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  grafana-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/grafana/data
+    HostPathType:  Directory
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           kafka-0
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:06:59 -0400
+Labels:         app=kafka
+                controller-revision-hash=kafka-59b6c5c64c
+                statefulset.kubernetes.io/pod-name=kafka-0
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.182
+Controlled By:  StatefulSet/kafka
+Containers:
+  kafka:
+    Container ID:   docker://1a2f9c1e680f3734d0016a8917cd68ca9b6e7996d2257bc9a12fd1ca8c5c1f10
+    Image:          wurstmeister/kafka:1.0.0
+    Image ID:       docker-pullable://wurstmeister/kafka@sha256:a46e42c8e4c872ca2f7064e8bf4187dc875f8c7028b82803f42d00429f58c5e9
+    Port:           9092/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:07:01 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      KAFKA_ADVERTISED_PORT:    9092
+      KAFKA_ZOOKEEPER_CONNECT:  zoo:2181
+      KAFKA_HEAP_OPTS:          -Xmx256M -Xms128M
+    Mounts:
+      /kafka from kafka-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  kafka-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/kafka
+    HostPathType:  Directory
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           netconf-58f49cc65d-6m5qd
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:30 -0400
+Labels:         app=netconf
+                pod-template-hash=1490577218
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.175
+Controlled By:  ReplicaSet/netconf-58f49cc65d
+Containers:
+  netconf:
+    Container ID:  docker://7af8ef975b5db4f00f4cb5a6ec40a6c282939849cfa5e82eb196b5d2134eedb2
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-netconf:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-netconf@sha256:bcc28c4f6f2f3c7952eb7382eb298cf5ccb0bb79ff7431df3ed529a04f13ff4f
+    Port:          830/TCP
+    Host Port:     0/TCP
+    Args:
+      /netconf/netconf/main.py
+      -v
+      --consul=consul:8500
+      --grpc-endpoint=voltha:50555
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:32 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NETCONF_PORT:  830
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           nginx-ingress-controller-5fd7b65955-f6wgb
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:06:32 -0400
+Labels:         app=ingress-nginx
+                pod-template-hash=1983621511
+Annotations:    cni=calico
+                prometheus.io/port=10254
+                prometheus.io/scrape=true
+Status:         Running
+IP:             192.168.2.155
+Controlled By:  ReplicaSet/nginx-ingress-controller-5fd7b65955
+Init Containers:
+  sysctl:
+    Container ID:  docker://7c043566c50f1397a0218a9b4ad994c7c8ea76e1c78a2993096f82812a85c548
+    Image:         alpine:3.6
+    Image ID:      docker-pullable://alpine@sha256:3d44fa76c2c83ed9296e4508b436ff583397cac0f4bad85c2b4ecc193ddb5106
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      sysctl -w net.core.somaxconn=32768; sysctl -w net.ipv4.ip_local_port_range="1024 65535"
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 14 May 2018 16:06:33 -0400
+      Finished:     Mon, 14 May 2018 16:06:33 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from nginx-ingress-serviceaccount-token-5g9bh (ro)
+Containers:
+  nginx-ingress-controller:
+    Container ID:  docker://818233d6566d2773732c6b5e2f553fb6856d0c7cb080e2f621d3426addf9a309
+    Image:         quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.10.2
+    Image ID:      docker-pullable://quay.io/kubernetes-ingress-controller/nginx-ingress-controller@sha256:20fb21709d0fa52c5f873ba68d464e04981d0cedf07e900f8a9def6874cf4cee
+    Ports:         80/TCP, 443/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Args:
+      /nginx-ingress-controller
+      --default-backend-service=$(POD_NAMESPACE)/default-http-backend
+      --configmap=$(POD_NAMESPACE)/nginx-configuration
+      --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services
+      --udp-services-configmap=$(POD_NAMESPACE)/udp-services
+      --annotations-prefix=nginx.ingress.kubernetes.io
+    State:          Running
+      Started:      Mon, 14 May 2018 16:06:43 -0400
+    Ready:          True
+    Restart Count:  0
+    Liveness:       http-get http://:10254/healthz delay=10s timeout=1s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:10254/healthz delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      POD_NAME:       nginx-ingress-controller-5fd7b65955-f6wgb (v1:metadata.name)
+      POD_NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from nginx-ingress-serviceaccount-token-5g9bh (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  nginx-ingress-serviceaccount-token-5g9bh:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  nginx-ingress-serviceaccount-token-5g9bh
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           ofagent-6c4b954c75-4dz68
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:29 -0400
+Labels:         app=ofagent
+                pod-template-hash=2706510731
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.178
+Controlled By:  ReplicaSet/ofagent-6c4b954c75
+Containers:
+  ofagent:
+    Container ID:  docker://2258f8df391893094d9f46b112b3c7112fd302da75541a2c426b9dc3985d6cbd
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-ofagent:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-ofagent@sha256:521fe18eff1f98fbd47486817139d6ba8b23b508382ce66070aa398e5819f37f
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      /ofagent/ofagent/main.py
+      -v
+      --consul=consul.$(NAMESPACE).svc.cluster.local:8500
+      --controller=onos:6653
+      --grpc-endpoint=vcore.$(NAMESPACE).svc.cluster.local:50556
+      --enable-tls
+      --key-file=/ofagent/pki/voltha.key
+      --cert-file=/ofagent/pki/voltha.crt
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:31 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           onos-6cd6cc4f7-zdwwr
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:09:12 -0400
+Labels:         app=onos
+                pod-template-hash=278277093
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.185
+Controlled By:  ReplicaSet/onos-6cd6cc4f7
+Containers:
+  onos:
+    Container ID:   docker://2d839c84384a97d5bf7dcec3357b70a94c4735bdc6ca2752d0cdd3fc52973574
+    Image:          voltha/voltha-onos:latest
+    Image ID:       docker-pullable://voltha/voltha-onos@sha256:64f77e3f23bd882b434a420569b39d61ed62c7a5f6b2b0b798aa70b35ea4bd40
+    Ports:          8101/TCP, 6653/TCP, 8181/TCP
+    Host Ports:     0/TCP, 0/TCP, 0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:09:14 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      POD_IP:      (v1:status.podIP)
+      NAMESPACE:  voltha (v1:metadata.namespace)
+      ONOS_APPS:  drivers,openflow-base
+    Mounts:
+      /root/onos/config/network-cfg.json from onos-net-config (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  onos-net-config:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/onos/config/network-cfg.json
+    HostPathType:  File
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           shovel-87d64d4c-6bh47
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:34 -0400
+Labels:         app=shovel
+                pod-template-hash=43820807
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.183
+Controlled By:  ReplicaSet/shovel-87d64d4c
+Containers:
+  shovel:
+    Container ID:  docker://95cd06d8af8779c953de944377976b384d393b36482fc025f760e6f7b47c6bfa
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-shovel:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-shovel@sha256:953bfde044f746f143028efc48221288639159ed28dc27427cb5bc68d85ff551
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      /shovel/shovel/main.py
+      --kafka=kafka.$(NAMESPACE).svc.cluster.local
+      --consul=consul:8500
+      --host=grafana.$(NAMESPACE).svc.cluster.local
+      --topic=voltha.kpis
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:38 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           vcli-5764f5dc7f-7hxqc
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:30 -0400
+Labels:         app=vcli
+                pod-template-hash=1320918739
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.172
+Controlled By:  ReplicaSet/vcli-5764f5dc7f
+Containers:
+  vcli:
+    Container ID:  docker://06587d28252db16821e140cd80299116715d83524a3014e74b8286ffb7e63cd0
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-cli:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-cli@sha256:87fcf3afd4103e370eac68e740b35514280e614644792fc0cd2a16457c51013c
+    Port:          22/TCP
+    Host Port:     0/TCP
+    Args:
+      /cli/cli/setup.sh
+      -C consul:8500
+      -g voltha:50555
+      -s voltha:18880
+      -G
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:32 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      POD_IP:      (v1:status.podIP)
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           vcore-5587d5b68f-rrlfj
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:29 -0400
+Labels:         app=vcore
+                pod-template-hash=1143816249
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.174
+Controlled By:  ReplicaSet/vcore-5587d5b68f
+Containers:
+  voltha:
+    Container ID:  docker://09c9492755fd6617e4c7ee4522c688f32907b48fa866efcc6d28ca96649d5646
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-voltha:1.0.1-nic_ont_fix
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-voltha@sha256:39c372add9527fb2348b53d68fc87bd89232c22917ab80246a1d3283474e173e
+    Ports:         8880/TCP, 18880/TCP, 50556/TCP
+    Host Ports:    0/TCP, 0/TCP, 0/TCP
+    Args:
+      voltha/voltha/main.py
+      -v
+      --etcd=etcd.$(NAMESPACE).svc.cluster.local:2379
+      --kafka=kafka.$(NAMESPACE).svc.cluster.local
+      --rest-port=8880
+      --grpc-port=50556
+      --interface=eth1
+      --backend=etcd
+      --pon-subnet=10.38.0.0/12
+      --ponsim-comm=grpc
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:31 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           voltha-5f696fd6c5-q6zjz
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:08:30 -0400
+Labels:         app=voltha
+                pod-template-hash=1925298271
+Annotations:    <none>
+Status:         Running
+IP:             192.168.2.170
+Controlled By:  ReplicaSet/voltha-5f696fd6c5
+Containers:
+  voltha:
+    Container ID:  docker://0dac98366007a8d05d8ee606a655afcfdadb6826ff702ea4fa4f5a3328b4edb0
+    Image:         docker-repo.dev.atl.foundry.att.com:5000/voltha-envoy:1.0
+    Image ID:      docker-pullable://docker-repo.dev.atl.foundry.att.com:5000/voltha-envoy@sha256:f347be104d70ee45acc2d13eb03583437bc6b6a36a613cf355b95eca5767d004
+    Ports:         8882/TCP, 8001/TCP, 8443/TCP, 50555/TCP
+    Host Ports:    0/TCP, 0/TCP, 0/TCP, 0/TCP
+    Args:
+      /usr/local/bin/envoyd
+      -envoy-cfg-template=/envoy/voltha-grpc-proxy.template.json
+      -envoy-config=/envoy/voltha-grpc-proxy.json
+      -kv=etcd
+      -kv-svc-name=etcd.$(NAMESPACE).svc.cluster.local
+      -kv-port=2379
+    State:          Running
+      Started:      Mon, 14 May 2018 16:08:32 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      POD_IP:      (v1:status.podIP)
+      NAMESPACE:  voltha (v1:metadata.namespace)
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>
+
+
+Name:           zookeeper-0
+Namespace:      voltha
+Node:           voltha-mzadig/10.64.10.181
+Start Time:     Mon, 14 May 2018 16:06:59 -0400
+Labels:         app=zookeeper
+                controller-revision-hash=zookeeper-564fdc45f
+                statefulset.kubernetes.io/pod-name=zookeeper-0
+Annotations:    cni=calico
+Status:         Running
+IP:             192.168.2.160
+Controlled By:  StatefulSet/zookeeper
+Containers:
+  zoo:
+    Container ID:   docker://1e2e955afc6d53043cf305980f5fdd48ad349fcf822194058b2fef7a0440a35d
+    Image:          zookeeper:3.4.11
+    Image ID:       docker-pullable://zookeeper@sha256:b7f6fda20bee82b13abf65d760e5cbeb4c202fc1d0840d0d9fd09bac83adb181
+    Ports:          2181/TCP, 2888/TCP, 3888/TCP
+    Host Ports:     0/TCP, 0/TCP, 0/TCP
+    State:          Running
+      Started:      Mon, 14 May 2018 16:07:01 -0400
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:  voltha (v1:metadata.namespace)
+      ZOO_MY_ID:  1
+    Mounts:
+      /data from zookeeper-data (rw)
+      /datalog from zookeeper-datalog (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-nqf4w (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          True 
+  PodScheduled   True 
+Volumes:
+  zookeeper-data:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/zookeeper/data
+    HostPathType:  Directory
+  zookeeper-datalog:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/voltha-runtime/zookeeper/datalog
+    HostPathType:  Directory
+  default-token-nqf4w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-nqf4w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:          <none>

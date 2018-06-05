@@ -1,0 +1,7 @@
+#!/bin/bash
+
+POD_NAME=$1
+echo "POD_NAME = $POD_NAME"
+echo "================  Running kubectl describe pod -n voltha $POD_NAME  ================ "
+kubectl describe pod -n voltha $POD_NAME 
+

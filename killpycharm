@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This script will show the current running voltha cmdr IF it is running
+# AND if it is running it will pull the PID and kill it
+
+ps -alx | grep 'pycharm'| grep -v 'killpycharm' | grep -Fv 'grep' 
+
+# Get the pid
+CUR_PID=`ps -ef | grep 'pycharm' | grep -v 'killpycharm' | grep -Fv 'grep' | awk '{print $2}'`
+echo "Killing  pid = " $CUR_PID
+
+kill $CUR_PID
+
+

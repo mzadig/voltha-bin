@@ -1,0 +1,7 @@
+#!/bin/bash
+# build a sentinnel container for testing and perhaps eventually as a kind of 
+# relay / proxy.
+
+
+cd /home/mzadig/dockerfiles/sentinnel
+docker build  -t mzadig/sentinnel .

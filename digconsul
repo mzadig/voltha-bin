@@ -1,0 +1,3 @@
+#!/bin/bash
+
+dig +short @10.96.0.10 consul.voltha.svc.cluster.local

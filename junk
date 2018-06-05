@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "This will collect the pod name in the voltha cluser based on the  key word"
+
+KEY=$1
+
+echo "Searching for $KEY in list of pods in the voltha namespace"
+
+
+echo "Looking for $KEY"
+
+

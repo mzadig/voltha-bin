@@ -1,0 +1,13 @@
+#!/bin/bash
+kubectl delete pod sentinnel -n voltha
+
+SLEEP_TIME=30
+
+echo "=======================   Sleeping  $SLEEP_TIME  to allow forsettling ====================="
+sleep $SLEEP_TIME
+
+echo "====================== Starting Sentinnel ======================="
+
+kubectl -n voltha run sentinnel  --image=mzadig/sentinnel:latest --restart=Never -i -t
+
+

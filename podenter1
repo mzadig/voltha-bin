@@ -1,0 +1,8 @@
+#!/bin/bash
+
+POD_NAME=$1
+POD_NS=$2
+echo "POD_NAME = $POD_NAME  Namespace=$POD_NS"
+
+kubectl get pod $POD_NAME -n $POD_NS
+kubectl exec -ti $POD_NAME -n $POD_NS -- /bin/sh

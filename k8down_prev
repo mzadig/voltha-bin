@@ -1,0 +1,35 @@
+#!/bin/bash
+## these files have been edited to reflect persistent environment
+
+
+ROOT=/home/mzadig/source/voltha/k8s
+cd /home/mzadig/source/voltha/k8s
+
+echo $ROOT
+
+kubectl delete -f $ROOT/foundry-node/zookeeper_persist.yml
+kubectl delete -f $ROOT/foundry-node/kafka_persist.yml
+kubectl delete -f $ROOT/foundry-node/consul_persist.yml
+kubectl delete -f $ROOT/foundry-node/fluentd.yml
+
+### VOLTHA CORE AND ACCESSORY CONTAINERS ####
+
+echo "delete namespace.yml"
+kubectl delete -f $ROOT/namespace.yml
+echo "delete ingress"
+kubectl delete -f $ROOT/ingress/
+
+
+kubectl delete -f $ROOT/foundry-node/vcore_for_consul_repo.yml
+kubectl delete -f $ROOT/foundry-node/ofagent_repo.yml 
+kubectl delete -f $ROOT/foundry-node/envoy_for_consul_repo.yml 
+kubectl delete -f $ROOT/foundry-node/vcli_repo.yml 
+kubectl delete -f $ROOT/foundry-node/netconf_repo.yml 
+kubectl delete -f $ROOT/foundry-node/grafana_persist.yml 
+kubectl delete -f $ROOT/foundry-node/stats_repo.yml 
+
+kubectl delete -f $ROOT/foundry-node/onos_repo.yml 
+
+# check the pods to be sure they are down
+
+kubectl get pods -n voltha
