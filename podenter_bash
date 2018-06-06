@@ -1,0 +1,7 @@
+#!/bin/bash
+
+POD_NAME=$1
+echo "POD_NAME = $POD_NAME"
+
+kubectl get pod $POD_NAME -n voltha 
+kubectl exec -ti $POD_NAME -n voltha -- /bin/bash

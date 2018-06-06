@@ -2,7 +2,7 @@
 
 #"This will collect the pod name in the voltha cluser based on the  key word"
 
-podenter `vcore_name`
+podenter_bash `vcore_name`
 
 
 

@@ -3,5 +3,5 @@
 # relay / proxy.
 
 
-cd /home/mzadig/dockerfiles/sentinnel
+cd /home/foundry/dockerfiles/sentinnel
 docker build  -t mzadig/sentinnel .
