@@ -1,5 +1,6 @@
 #!/bin/bash
 ## these files have been edited to reflect persistent environment
+#  This points to an alternate code set for starting up a a K8s cluster.
 
 
 echo " ====================== Restarting the voltha cluster using the default yaml + vcore msz files for startup ================="

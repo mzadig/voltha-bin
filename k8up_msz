@@ -62,3 +62,9 @@ kubectl apply -f foundry-node/onos_repo.yml
 # verify all the pods are running
 
 kubectl get pods -n voltha
+
+echo "Showing the stored directories:  sudo ls -la /var/lib/voltha-runtime"
+
+sudo ls -la /var/lib/voltha-runtime
+
+

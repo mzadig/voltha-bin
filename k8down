@@ -5,9 +5,9 @@
 
 echo " =====  Taking down the k8 voltha namiespace Cluster.... ================"
 
-#ROOT=/home/foundry/source/voltha/k8s
+ROOT=/home/foundry/source/voltha/k8s
 
-ROOT=/home/foundry/source/voltha_msz_20180605/k8s
+#ROOT=/home/foundry/source/voltha_msz_20180605/k8s
 cd $ROOT
 
 echo " Current target directory = $ROOT"
@@ -46,6 +46,18 @@ kubectl delete -f $ROOT/ingress/
 #Akubectl delete -f $ROOT/calico-1.6.yml
 
 
+echo "============== Removing Persisted data for the cluster ============================"
+#Flush stored data
+sudo ls -la /var/lib/voltha-runtime
+sudo rm -r /var/lib/voltha-runtime/consul/data/*
+sudo rm -r /var/lib/voltha-runtime/fluentd/*
+sudo rm -r /var/lib/voltha-runtime/kafka/*
+sudo rm -r /var/lib/voltha-runtime/zookeeper/data/*
+sudo rm -r /var/lib/voltha-runtime/zookeeper/datalog/*
+sudo rm -r /var/lib/voltha-runtime/grafana/data/*
+
+
+
 # check the pods to be sure they are down
 
-kubectl get pods -n voltha
+kubectl get pods -n voltha 
