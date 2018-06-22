@@ -53,12 +53,15 @@ kubectl delete -f $ROOT/ingress/
 echo "============== Removing Persisted data for the cluster ============================"
 #Flush stored data
 sudo ls -la /var/lib/voltha-runtime
+sudo rm -r /var/lib/voltha-runtime/etcd/*
 sudo rm -r /var/lib/voltha-runtime/consul/data/*
 sudo rm -r /var/lib/voltha-runtime/fluentd/*
 sudo rm -r /var/lib/voltha-runtime/kafka/*
 sudo rm -r /var/lib/voltha-runtime/zookeeper/data/*
 sudo rm -r /var/lib/voltha-runtime/zookeeper/datalog/*
 sudo rm -r /var/lib/voltha-runtime/grafana/data/*
+
+
 
 
 
