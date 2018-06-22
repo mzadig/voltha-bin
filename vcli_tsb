@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo " This is the full vcli tag , ship and bounce script"
+
+cd $HOME/source/voltha/
+bash $HOME/source/voltha/vcli_tag_and_ship.sh
+vcli_bounce
+k8svc
+
+SVC_IP=`k8svc | grep vcli | awk '{print $3}'`
+echo `k8svc | grep vcli | awk '{print $3}'`
+
+echo "ssh voltha@$SVC_IP -p 5022"

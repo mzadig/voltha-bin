@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#"This will collect the pod name in the voltha cluser based on the  key word"
+
+podenter_bash `podname_get vcli`
+
+
+
+

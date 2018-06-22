@@ -37,6 +37,10 @@ kubectl delete -f $ROOT/foundry-node/stats_repo.yml
 
 kubectl delete -f $ROOT/foundry-node/onos_repo.yml 
 
+
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl delete  -f foundry-node/dashboard-admin.yml
+
 echo "===============================  delete namespace.yml"
 kubectl delete -f $ROOT/namespace.yml
 echo "==============================  delete ingress"
@@ -59,5 +63,6 @@ sudo rm -r /var/lib/voltha-runtime/grafana/data/*
 
 
 # check the pods to be sure they are down
-
-kubectl get pods -n voltha 
+k8show
+echo " Watching pods......"
+kubectl get pods -n voltha -o wide -w

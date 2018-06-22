@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#"This will collect the pod name in the voltha cluser based on the  key word"
+
+echo "SSH into the vcli using the IP of $1"
+
+ssh voltha@$1 -p 5022
+
+
+
+

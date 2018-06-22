@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+echo `k8svc | grep vcli | awk '{print $3}'`
+SVC_IP=`k8svc | grep vcli | awk '{print $3}'`
+echo "ssh voltha@$SVC_IP -p 5022"
