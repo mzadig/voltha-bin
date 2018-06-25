@@ -2,16 +2,20 @@
 ## these files have been edited to reflect persistent environment
 
 
+ROOT=/home/foundry/source/voltha/k8s
 cd /home/foundry/source/voltha/k8s
+
+echo $ROOT
 
 
 ### VOLTHA CORE AND ACCESSORY CONTAINERS ####
-echo "Running -----------  kubectl delete -f $ROOT/foundry-node/stats_repo.yml"
-kubectl delete -f foundry-node/stats_repo.yml
 
-echo 'Running -----   foundry-node/stats_repo.yml'
-kubectl apply -f foundry-node/stats_repo.yml
+echo "kubectl delete -f $ROOT/stats_repo.yml"
+kubectl delete -f $ROOT/foundry-node/stats_repo.yml 
 
-# verify all the pods are running
+echo "kubectl apply -f $ROOT/stats_repo.yml"
+kubectl apply -f $ROOT/foundry-node/stats_repo.yml 
+
+# check the pods to be sure they are dvack up ......
 
 kubectl get pods -n voltha
