@@ -6,6 +6,6 @@ cd $HOME/source/voltha/
 echo `pwd`
 
 bash $HOME/source/voltha/vcore_tag_and_ship.sh
-vcorebounce_mz
+vcore_bounce_mz
 k8show
 
